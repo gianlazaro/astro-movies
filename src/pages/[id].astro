@@ -1,0 +1,28 @@
+---
+import { Image } from "astro:assets";
+
+const { id } = Astro.params;
+
+const url =
+  "https://api.themoviedb.org/3/movie/" +
+  id +
+  "?api_key=102819eb53f347b566e9cfd83ca3790b";
+const data = await fetch(url);
+const res = await data.json();
+---
+
+<Image
+  src={"https://image.tmdb.org/t/p/w300" + res.poster_path}
+  width={300}
+  height={450}
+  aspectRatio="2:3"
+  format="avif"
+  loading="eager"
+  alt={res.title || "movie"}
+/>
+<div style="max-width:500px;">
+  {res.title}
+  <br />{res.overview}
+  <br />{res.release_date}
+  <br />${res.revenue - res.budget}
+</div>
